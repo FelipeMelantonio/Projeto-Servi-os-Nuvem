@@ -1,0 +1,30 @@
+package com.felipe.minicontadigital.security;
+
+import com.felipe.minicontadigital.entity.Usuario;
+import com.felipe.minicontadigital.repository.UsuarioRepository;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+    private final UsuarioRepository usuarioRepository;
+
+    public UserDetailsServiceImpl(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+
+        return new User(
+                usuario.getEmail(),
+                usuario.getSenha(),
+                List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRole().name())));
+    }
+}
