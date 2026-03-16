@@ -86,9 +86,9 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://54.242.212.161:8080"); // Permite apenas o seu Frontend na EC2
-        configuration.addAllowedMethod("*"); // Permite todos os métodos HTTP (GET, POST, etc)
-        configuration.addAllowedHeader("*"); // Permite todos os headers
+        configuration.addAllowedOriginPattern("*"); // Permite origens variadas (Isolamento será via Security Group)
+        configuration.addAllowedMethod("*"); 
+        configuration.addAllowedHeader("*"); 
         configuration.setAllowCredentials(true); 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
