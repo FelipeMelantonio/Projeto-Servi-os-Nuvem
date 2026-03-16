@@ -1,6 +1,5 @@
 package com.felipe.minicontadigital.service;
 
-import com.felipe.minicontadigital.dto.TransferenciaExternaRequest;
 import com.felipe.minicontadigital.dto.TransferenciaInternaRequest;
 import com.felipe.minicontadigital.entity.Conta;
 import com.felipe.minicontadigital.entity.Transacao;
@@ -22,16 +21,13 @@ public class TransacaoService {
 
     private final ContaRepository contaRepository;
     private final TransacaoRepository transacaoRepository;
-    private final BancoService bancoService;
 
     public TransacaoService(
             ContaRepository contaRepository,
-            TransacaoRepository transacaoRepository,
-            BancoService bancoService) {
+            TransacaoRepository transacaoRepository) {
 
         this.contaRepository = contaRepository;
         this.transacaoRepository = transacaoRepository;
-        this.bancoService = bancoService;
     }
 
     private Conta getConta(Long id) {
@@ -122,38 +118,6 @@ public class TransacaoService {
                         .valor(req.getValor())
                         .contaOrigem(origem)
                         .contaDestino(destino)
-                        .saldoAposOperacao(origem.getSaldo())
-                        .timestamp(LocalDateTime.now())
-                        .build());
-    }
-
-    @Transactional
-    public Transacao transferirExterna(TransferenciaExternaRequest req, String userEmail) {
-        if (req.getValor() == null || req.getValor().compareTo(BigDecimal.ZERO) <= 0)
-            throw new ApiException("Valor deve ser positivo.", HttpStatus.BAD_REQUEST);
-
-        Conta origem = getConta(req.getContaOrigemId());
-        validarDonoConta(origem, userEmail);
-
-        if (origem.getSaldo().compareTo(req.getValor()) < 0)
-            throw new ApiException("Saldo insuficiente.", HttpStatus.BAD_REQUEST);
-
-        bancoService.buscarPorCodigo(req.getBanco())
-                .orElseThrow(() -> new ApiException("Banco destino inválido.", HttpStatus.BAD_REQUEST));
-
-        origem.setSaldo(origem.getSaldo().subtract(req.getValor()));
-        contaRepository.save(origem);
-
-        return transacaoRepository.save(
-                Transacao.builder()
-                        .tipo(TipoTransacao.TRANSFERENCIA_EXTERNA)
-                        .valor(req.getValor())
-                        .contaOrigem(origem)
-                        .contaDestino(null)
-                        .bancoExterno(String.valueOf(req.getBanco()))
-                        .agenciaExterna(req.getAgencia())
-                        .contaExterna(req.getConta())
-                        .cpfExterno(req.getCpfDestino())
                         .saldoAposOperacao(origem.getSaldo())
                         .timestamp(LocalDateTime.now())
                         .build());

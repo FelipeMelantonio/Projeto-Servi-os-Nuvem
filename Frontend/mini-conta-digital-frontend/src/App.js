@@ -8,16 +8,10 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import CreateAccountPage from './pages/CreateAccountPage';
-import CreateAdminPage from './pages/admin/CreateAdminPage'; 
-import AdminDashboardPage from './pages/admin/AdminDashboardPage';
-import AdminUsersPage from './pages/admin/AdminUsersPage';
-import AdminAccountsPage from './pages/admin/AdminAccountsPage';
-import AdminTransactionsPage from './pages/admin/AdminTransactionsPage';
 import TransactionHistoryPage from './pages/TransactionHistoryPage';
 import DepositPage from './pages/DepositPage';
 import WithdrawPage from './pages/WithdrawPage';
 import InternalTransferPage from './pages/InternalTransferPage';
-import ExternalTransferPage from './pages/ExternalTransferPage';
 
 const theme = createTheme({
   palette: {
@@ -99,16 +93,8 @@ function App() {
         <Route path="/deposit" element={<ProtectedRoute><DepositPage /></ProtectedRoute>} />
         <Route path="/withdraw" element={<ProtectedRoute><WithdrawPage /></ProtectedRoute>} />
         <Route path="/transfer/internal" element={<ProtectedRoute><InternalTransferPage /></ProtectedRoute>} />
-        <Route path="/transfer/external" element={<ProtectedRoute><ExternalTransferPage /></ProtectedRoute>} />
         
-        {/* Admin Routes */}
-        <Route path="/admin/dashboard" element={<ProtectedRoute adminOnly={true}><AdminDashboardPage /></ProtectedRoute>} />
-        <Route path="/admin/users" element={<ProtectedRoute adminOnly={true}><AdminUsersPage /></ProtectedRoute>} />
-        <Route path="/admin/accounts" element={<ProtectedRoute adminOnly={true}><AdminAccountsPage /></ProtectedRoute>} />
-        <Route path="/admin/transactions" element={<ProtectedRoute adminOnly={true}><AdminTransactionsPage /></ProtectedRoute>} />
-        <Route path="/admin/create-admin" element={<ProtectedRoute adminOnly={true}><CreateAdminPage /></ProtectedRoute>} />
-
-        <Route path="*" element={<Box sx={{ p: 4 }}><Typography variant="h4">404 - Page Not Found</Typography></Box>} />
+        <Route path="*" element={<Box sx={{ p: 4 }}><Typography variant="h4">404 - Página não encontrada</Typography></Box>} />
       </Routes>
     </ThemeProvider>
   );

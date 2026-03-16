@@ -11,13 +11,9 @@ import {
   AccountBalanceWallet as DepositIcon,
   MoneyOff as WithdrawIcon,
   SwapHoriz as InternalIcon,
-  Public as ExternalIcon,
   Logout as LogoutIcon,
   AccountCircle as ProfileIcon,
-  AddCard as CreateAccountIcon,
-  People as PeopleIcon,
-  AccountBalance as AccountIcon,
-  AdminPanelSettings as AdminIcon
+  AddCard as CreateAccountIcon
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
@@ -52,25 +48,16 @@ function MainLayout({ children }) {
     { text: 'Extrato', icon: <HistoryIcon />, path: '/transactions' },
     { text: 'Depósito', icon: <DepositIcon />, path: '/deposit' },
     { text: 'Saque', icon: <WithdrawIcon />, path: '/withdraw' },
-    { text: 'Transf. Interna', icon: <InternalIcon />, path: '/transfer/internal' },
-    { text: 'Transf. Externa', icon: <ExternalIcon />, path: '/transfer/external' },
+    { text: 'Transferência', icon: <InternalIcon />, path: '/transfer/internal' },
   ];
 
-  const adminMenuItems = [
-    { text: 'Dashboard Admin', icon: <DashboardIcon />, path: '/admin/dashboard' },
-    { text: 'Usuários', icon: <PeopleIcon />, path: '/admin/users' },
-    { text: 'Contas', icon: <AccountIcon />, path: '/admin/accounts' },
-    { text: 'Transações', icon: <HistoryIcon />, path: '/admin/transactions' },
-    { text: 'Novo Admin', icon: <AdminIcon />, path: '/admin/create-admin' },
-  ];
-
-  const menuItems = user?.role === 'ADMIN' ? adminMenuItems : userMenuItems;
+  const menuItems = userMenuItems;
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#f4f6f8' }}>
-      <Toolbar sx={{ backgroundColor: user?.role === 'ADMIN' ? '#d32f2f' : '#1976d2', color: 'white', display: 'flex', justifyContent: 'center' }}>
+      <Toolbar sx={{ backgroundColor: '#1976d2', color: 'white', display: 'flex', justifyContent: 'center' }}>
         <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 'bold' }}>
-          {user?.role === 'ADMIN' ? 'ADMIN PANEL' : 'MINI CONTA'}
+          MINI CONTA
         </Typography>
       </Toolbar>
       <Divider />
