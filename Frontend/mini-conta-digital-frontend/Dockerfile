@@ -1,15 +1,31 @@
-FROM node:20
+# ---------- Estágio 1: Build do React ----------
+FROM node:20 AS build
+
 WORKDIR /app
-# Copia os arquivos de dependências
+
 COPY package*.json ./
-# Instala as dependências
+
 RUN npm install
-# Copia o restante do código
+
 COPY . .
-# Expõe a porta que o React usa por padrão
+
+# variável usada pelo React
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
+# limite de memória para EC2 pequena
+RUN NODE_OPTIONS="--max-old-space-size=768" npm run build
+
+
+# ---------- Estágio 2: Servidor Nginx ----------
+FROM nginx:alpine
+
+# copia build do React
+COPY --from=build /app/build /usr/share/nginx/html
+
+# copia configuração nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 8080
-# Variáveis de ambiente para forçar a porta 8080
-ENV PORT=8080
-ENV HOST=0.0.0.0
-# Comando para iniciar a aplicação
-CMD ["npm", "start"]
+
+CMD ["nginx", "-g", "daemon off;"]
