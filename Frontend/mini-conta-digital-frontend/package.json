@@ -2,6 +2,7 @@
   "name": "mini-conta-digital-frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://172.31.27.113:25000",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
