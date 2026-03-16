@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuthStore from '../store/authStore';
 
 // Busca a URL da API de uma variável de ambiente ou usa o padrão local
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api'; 
+const API_BASE_URL = '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
