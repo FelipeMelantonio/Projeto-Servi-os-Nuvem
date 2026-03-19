@@ -62,7 +62,7 @@ A aplicação foi implantada utilizando uma arquitetura de rede em camadas para 
 
 1.  **Clonar o repositório:**
     ```bash
-    git clone https://github.com/seu-usuario/projeto-faculdade.git
+    git clone https://github.com/FelipeMelantonio/Projeto-Servi-os-Nuvem
     cd projeto-faculdade
     ```
 
